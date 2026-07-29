@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Reqio agent loop sandbox</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #16181d;
+        --muted: #5b6472;
+        --line: #e3e7ed;
+        --code-bg: #f4f6f9;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d0f13;
+          --fg: #e9edf3;
+          --muted: #98a2b3;
+          --line: #232830;
+          --code-bg: #161a20;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 4rem 1.5rem 8rem;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      main {
+        max-width: 46rem;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: clamp(1.6rem, 4vw, 2.25rem);
+        line-height: 1.2;
+        margin: 0 0 0.75rem;
+        letter-spacing: -0.02em;
+      }
+      p.lede {
+        color: var(--muted);
+        font-size: 1.05rem;
+        margin: 0 0 2.5rem;
+      }
+      h2 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin: 2.5rem 0 0.75rem;
+      }
+      ol {
+        padding-left: 1.25rem;
+        margin: 0;
+      }
+      li {
+        margin-bottom: 0.5rem;
+      }
+      code {
+        background: var(--code-bg);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0.1em 0.4em;
+        font: 0.875em/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      footer {
+        margin-top: 3.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+      a {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Reqio agent loop sandbox</h1>
+      <p class="lede">
+        A throwaway page whose only job is to host the Reqio widget, so a bug report can enter the
+        loop the way a real visitor would file it.
+      </p>
+
+      <h2>What happens after you file one</h2>
+      <ol>
+        <li>The report lands in the Reqio dashboard as a bug.</li>
+        <li>A human moves it to In progress. That move is the approval.</li>
+        <li>
+          The scheduled workflow picks it up and opens a pull request on
+          <code>forever-faceless/agent-loop-test</code>.
+        </li>
+        <li>Merging that pull request marks the request complete and notifies the reporter.</li>
+      </ol>
+
+      <h2>Something to report</h2>
+      <p>
+        <code>src/pricing.js</code> computes an annual price by multiplying the monthly rate by the
+        discount instead of by what is left after it, and throws outright on a tier it does not
+        recognise. Either is fair game.
+      </p>
+
+      <footer>
+        Not a product. Not indexed. Delete whenever.
+      </footer>
+    </main>
+
+    <script src="https://reqio.app/widget.js" data-project-id="cms6917zf00081msb8njz06j7" async></script>
+  </body>
+</html>

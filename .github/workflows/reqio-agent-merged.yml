@@ -1,0 +1,25 @@
+name: Reqio agent (merged)
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  close-the-loop:
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.repo.fork == false && startsWith(github.event.pull_request.head.ref, "reqio/feature-")
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reqio-app/feedback-to-pr@v1
+        with:
+          mode: merged
+          project-id: cms6917zf00081msb8njz06j7
+          base-url: https://reqio.app
+          branch-prefix: "reqio/feature-"
+          branch: ${{ github.event.pull_request.head.ref }}
+          completion-kind: NEXT_UPDATE
+        env:
+          REQIO_API_KEY: ${{ secrets.REQIO_API_KEY }}
