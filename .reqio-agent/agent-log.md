@@ -1,7 +1,0 @@
-# Agent log
-
-## Output
-
-```
-
-```
