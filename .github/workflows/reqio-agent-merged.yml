@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   close-the-loop:
-    if: github.event.pull_request.merged == true && github.event.pull_request.head.repo.fork == false && startsWith(github.event.pull_request.head.ref, "reqio/feature-")
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.repo.fork == false && startsWith(github.event.pull_request.head.ref, 'reqio/feature-')
     runs-on: ubuntu-latest
     steps:
       - uses: reqio-app/feedback-to-pr@v1
