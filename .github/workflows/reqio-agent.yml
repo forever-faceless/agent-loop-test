@@ -24,7 +24,7 @@ jobs:
           project-id: cms6917zf00081msb8njz06j7
           base-url: https://reqio.app
           branch-prefix: "reqio/feature-"
-          agent-command: "npx -y @google/gemini-cli@latest --approval-mode yolo --skip-trust -p \"Follow the instructions above.\""
+          agent-command: "npx -y @google/gemini-cli@latest -m gemini-2.5-flash --approval-mode yolo --skip-trust -p \"Follow the instructions above.\""
           auto-approve: "false"
           max-prs-per-run: "1"
           test-command: ""
