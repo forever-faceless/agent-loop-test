@@ -10,7 +10,7 @@ const TIERS = [
 export function annualPrice(tierKey) {
   const tier = TIERS.find((t) => t.key === tierKey);
   if (!tier) return null;
-  return tier.monthly * 12 * tier.annualDiscount;
+  return tier.monthly * 12 * (1 - tier.annualDiscount);
 }
 
 export function formatPrice(amount) {
