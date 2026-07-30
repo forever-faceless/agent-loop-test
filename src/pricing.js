@@ -14,5 +14,6 @@ export function annualPrice(tierKey) {
 }
 
 export function formatPrice(amount) {
+  if (amount == null) return "-";
   return "$" + amount.toFixed(2);
 }
