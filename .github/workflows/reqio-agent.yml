@@ -18,13 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: reqio-app/feedback-to-pr@v1
         with:
           project-id: cms6917zf00081msb8njz06j7
           base-url: https://reqio.app
           branch-prefix: "reqio/feature-"
-          agent-command: "npx -y @google/gemini-cli@latest --approval-mode yolo --skip-trust -p \"Follow the instructions above.\""
+          agent-command: "printenv OPENAI_API_KEY | npx -y @openai/codex@latest login --with-api-key && npx -y @openai/codex@latest exec --dangerously-bypass-approvals-and-sandbox --ephemeral --color never"
           auto-approve: "false"
           max-prs-per-run: "1"
           test-command: ""
