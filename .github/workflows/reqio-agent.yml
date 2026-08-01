@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: reqio-app/feedback-to-pr@feat/review-feedback-mode
+      - uses: reqio-app/feedback-to-pr@v1
         with:
           project-id: cms6917zf00081msb8njz06j7
           base-url: https://reqio.app
