@@ -1,0 +1,60 @@
+name: Reqio agent (review)
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: reqio-review-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  address-review:
+    if: >
+      (
+        github.event_name == 'issue_comment' &&
+        github.event.issue.pull_request != null &&
+        github.event.comment.user.type != 'Bot' &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) &&
+        contains(github.event.comment.body, '/reqio')
+      ) || (
+        github.event_name == 'pull_request_review_comment' &&
+        github.event.pull_request.head.repo.fork == false &&
+        github.event.comment.user.type != 'Bot' &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) &&
+        contains(github.event.comment.body, '/reqio')
+      ) || (
+        github.event_name == 'pull_request_review' &&
+        github.event.pull_request.head.repo.fork == false &&
+        github.event.review.state == 'changes_requested' &&
+        github.event.review.user.type != 'Bot' &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.review.author_association)
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: reqio-app/feedback-to-pr@v1
+        with:
+          mode: review
+          pr-number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          project-id: cms6917zf00081msb8njz06j7
+          base-url: https://reqio.app
+          branch-prefix: "reqio/feature-"
+          agent-command: "printenv OPENAI_API_KEY | npx -y @openai/codex@latest login --with-api-key && npx -y @openai/codex@latest exec --dangerously-bypass-approvals-and-sandbox --ephemeral --color never"
+          test-command: ""
+          allow-test-edits: "false"
+        env:
+          REQIO_API_KEY: ${{ secrets.REQIO_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
