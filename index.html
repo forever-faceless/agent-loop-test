@@ -102,9 +102,9 @@
 
       <h2>Something to report</h2>
       <p>
-        <code>src/pricing.js</code> computes an annual price by multiplying the monthly rate by the
-        discount instead of by what is left after it, and throws outright on a tier it does not
-        recognise. Either is fair game.
+        <code>monthlyEquivalent()</code> in <code>src/pricing.js</code> is meant to show what an
+        annual plan works out to per month. Pro bills $470.40 a year, so it should read $39.20 a
+        month. It reports $47.04, because it divides the annual total by 10 instead of by 12.
       </p>
 
       <footer>
