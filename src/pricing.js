@@ -15,5 +15,7 @@ export function annualPrice(tierKey) {
 
 export function formatPrice(amount) {
   if (amount == null) return "-";
-  return "$" + amount.toFixed(2);
+  const numericAmount = Number(amount);
+  if (Number.isNaN(numericAmount)) return "-";
+  return "$" + numericAmount.toFixed(2);
 }
