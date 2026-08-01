@@ -20,5 +20,5 @@ export function formatPrice(amount) {
 export function monthlyEquivalent(tierKey) {
   const annual = annualPrice(tierKey);
   if (annual === null) return null;
-  return annual / 10;
+  return annual / 12;
 }
