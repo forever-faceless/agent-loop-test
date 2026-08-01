@@ -69,6 +69,44 @@
         padding: 0.1em 0.4em;
         font: 0.875em/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
       }
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+      .plan {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.1rem 1.25rem 1.25rem;
+      }
+      .plan h3 {
+        margin: 0 0 0.6rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .per-month {
+        margin: 0;
+        font-size: 1.9rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+      .per-month span {
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .per-year {
+        margin: 0.35rem 0 0;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .note {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-top: 0.9rem;
+      }
       footer {
         margin-top: 3.5rem;
         padding-top: 1.5rem;
@@ -100,17 +138,38 @@
         <li>Merging that pull request marks the request complete and notifies the reporter.</li>
       </ol>
 
-      <h2>Something to report</h2>
-      <p>
-        <code>monthlyEquivalent()</code> in <code>src/pricing.js</code> is meant to show what an
-        annual plan works out to per month. Pro bills $470.40 a year, so it should read $39.20 a
-        month. It reports $47.04, because it divides the annual total by 10 instead of by 12.
+      <h2>Annual pricing</h2>
+      <div class="plans" id="plans"></div>
+      <p class="note">
+        Rendered by <code>src/pricing.js</code>, so whatever that module returns is what shows up
+        here. The per-month figure is wrong today, which is the thing worth reporting.
       </p>
 
       <footer>
         Not a product. Not indexed. Delete whenever.
       </footer>
     </main>
+
+    <script type="module">
+      import { annualPrice, monthlyEquivalent, formatPrice } from "./src/pricing.js";
+
+      const PLANS = [
+        { key: "free", name: "Free" },
+        { key: "pro", name: "Pro" },
+        { key: "scale", name: "Scale" },
+      ];
+
+      document.getElementById("plans").innerHTML = PLANS.map((plan) => {
+        const year = annualPrice(plan.key);
+        const month = monthlyEquivalent(plan.key);
+        return `
+          <div class="plan">
+            <h3>${plan.name}</h3>
+            <p class="per-month">${formatPrice(month)}<span>/mo</span></p>
+            <p class="per-year">${formatPrice(year)} billed annually</p>
+          </div>`;
+      }).join("");
+    </script>
 
     <script src="https://reqio.app/widget.js" data-project-id="cms6917zf00081msb8njz06j7" async></script>
   </body>
