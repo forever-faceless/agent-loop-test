@@ -49,12 +49,16 @@ jobs:
           project-id: cms6917zf00081msb8njz06j7
           base-url: https://reqio.app
           branch-prefix: "reqio/feature-"
-          agent-command: "printenv OPENAI_API_KEY | npx -y @openai/codex@latest login --with-api-key && npx -y @openai/codex@latest exec --dangerously-bypass-approvals-and-sandbox --ephemeral --color never"
+          # agent-command is deliberately absent, which selects the default
+          # (Claude Code headless). An explicitly empty string is NOT the same
+          # thing and fails the run on purpose.
           auto-approve: "false"
           max-prs-per-run: "1"
           test-command: ""
           allow-test-edits: "false"
         env:
           REQIO_API_KEY: ${{ secrets.REQIO_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Only the key the selected agent needs. The action passes an
+          # allowlisted environment through to the agent, so a second provider
+          # key declared here would reach it for no reason.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
