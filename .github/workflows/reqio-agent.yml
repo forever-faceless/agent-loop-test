@@ -4,24 +4,47 @@ on:
   schedule:
     - cron: "0 */4 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "verify checks your setup without spending anything. poll does the real work."
+        required: true
+        default: verify
+        type: choice
+        options:
+          - verify
+          - poll
 
 permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: reqio-agent
-  cancel-in-progress: false
-
 jobs:
-  open-pull-requests:
+  verify:
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'verify'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: reqio-app/feedback-to-pr@v2
+        with:
+          mode: verify
+          project-id: cms6917zf00081msb8njz06j7
+          base-url: https://reqio.app
+        env:
+          REQIO_API_KEY: ${{ secrets.REQIO_API_KEY }}
+
+  open-pull-requests:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'poll')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: reqio-agent
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: reqio-app/feedback-to-pr@v1
+      - uses: reqio-app/feedback-to-pr@v2
         with:
           project-id: cms6917zf00081msb8njz06j7
           base-url: https://reqio.app
