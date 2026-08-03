@@ -1,8 +1,13 @@
 name: Reqio agent (review)
 
+# issue_comment is deliberately absent. GitHub does not apply its fork
+# permission downgrade to that event, and its payload carries no head.repo, so
+# the fork check the other two triggers make is inexpressible there. A stranger
+# could open a PR from a fork on a reqio/feature- branch and have their code
+# checked out and run here with this job's full token and secrets, on any
+# maintainer comment containing the trigger word. Removed until the action
+# refuses cross-repository PRs server-side; do not add it back before then.
 on:
-  issue_comment:
-    types: [created]
   pull_request_review_comment:
     types: [created]
   pull_request_review:
@@ -20,12 +25,6 @@ jobs:
   address-review:
     if: >
       (
-        github.event_name == 'issue_comment' &&
-        github.event.issue.pull_request != null &&
-        github.event.comment.user.type != 'Bot' &&
-        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) &&
-        contains(github.event.comment.body, '/reqio')
-      ) || (
         github.event_name == 'pull_request_review_comment' &&
         github.event.pull_request.head.repo.fork == false &&
         github.event.comment.user.type != 'Bot' &&
