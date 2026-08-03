@@ -7,14 +7,24 @@ const TIERS = [
   { key: "scale", monthly: 149, annualDiscount: 0.2 },
 ];
 
+export const CURRENCIES = {
+  USD: { rate: 1, symbol: "$" },
+  EUR: { rate: 0.92, symbol: "€" },
+  GBP: { rate: 0.79, symbol: "£" },
+};
+
 export function annualPrice(tierKey) {
   const tier = TIERS.find((t) => t.key === tierKey);
   if (!tier) return null;
   return tier.monthly * 12 * (1 - tier.annualDiscount);
 }
 
-export function formatPrice(amount) {
-  return "$" + amount.toFixed(2);
+export function convert(amountUsd, currencyCode) {
+  return amountUsd * CURRENCIES[currencyCode].rate;
+}
+
+export function formatPrice(amount, currencyCode) {
+  return CURRENCIES[currencyCode].symbol + amount.toFixed(2);
 }
 
 export function monthlyEquivalent(tierKey) {

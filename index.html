@@ -74,6 +74,9 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 0.75rem;
       }
+      .currency-picker {
+        margin-bottom: 0.75rem;
+      }
       .plan {
         border: 1px solid var(--line);
         border-radius: 10px;
@@ -139,6 +142,14 @@
       </ol>
 
       <h2>Annual pricing</h2>
+      <div class="currency-picker">
+        <label for="currency">Currency</label>
+        <select id="currency">
+          <option value="USD" selected>USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </div>
       <div class="plans" id="plans"></div>
       <p class="note">
         Rendered by <code>src/pricing.js</code>, so whatever that module returns is what shows up
@@ -151,7 +162,7 @@
     </main>
 
     <script type="module">
-      import { annualPrice, monthlyEquivalent, formatPrice } from "./src/pricing.js";
+      import { annualPrice, monthlyEquivalent, convert, formatPrice } from "./src/pricing.js";
 
       const PLANS = [
         { key: "free", name: "Free" },
@@ -159,16 +170,24 @@
         { key: "scale", name: "Scale" },
       ];
 
-      document.getElementById("plans").innerHTML = PLANS.map((plan) => {
-        const year = annualPrice(plan.key);
-        const month = monthlyEquivalent(plan.key);
-        return `
-          <div class="plan">
-            <h3>${plan.name}</h3>
-            <p class="per-month">${formatPrice(month)}<span>/mo</span></p>
-            <p class="per-year">${formatPrice(year)} billed annually</p>
-          </div>`;
-      }).join("");
+      const currencySelect = document.getElementById("currency");
+
+      function renderPlans() {
+        const currency = currencySelect.value;
+        document.getElementById("plans").innerHTML = PLANS.map((plan) => {
+          const year = convert(annualPrice(plan.key), currency);
+          const month = convert(monthlyEquivalent(plan.key), currency);
+          return `
+            <div class="plan">
+              <h3>${plan.name}</h3>
+              <p class="per-month">${formatPrice(month, currency)}<span>/mo</span></p>
+              <p class="per-year">${formatPrice(year, currency)} billed annually</p>
+            </div>`;
+        }).join("");
+      }
+
+      currencySelect.addEventListener("change", renderPlans);
+      renderPlans();
     </script>
 
     <script src="https://reqio.app/widget.js" data-project-id="cms6917zf00081msb8njz06j7" async></script>
