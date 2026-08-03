@@ -13,6 +13,12 @@ export function annualPrice(tierKey) {
   return tier.monthly * 12 * (1 - tier.annualDiscount);
 }
 
+export function annualSavingPercent(tierKey) {
+  const tier = TIERS.find((t) => t.key === tierKey);
+  if (!tier) return null;
+  return Math.round(tier.annualDiscount * 100);
+}
+
 export function formatPrice(amount) {
   return "$" + amount.toFixed(2);
 }

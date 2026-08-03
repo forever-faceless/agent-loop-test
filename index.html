@@ -151,7 +151,12 @@
     </main>
 
     <script type="module">
-      import { annualPrice, monthlyEquivalent, formatPrice } from "./src/pricing.js";
+      import {
+        annualPrice,
+        annualSavingPercent,
+        monthlyEquivalent,
+        formatPrice,
+      } from "./src/pricing.js";
 
       const PLANS = [
         { key: "free", name: "Free" },
@@ -162,11 +167,12 @@
       document.getElementById("plans").innerHTML = PLANS.map((plan) => {
         const year = annualPrice(plan.key);
         const month = monthlyEquivalent(plan.key);
+        const saving = annualSavingPercent(plan.key);
         return `
           <div class="plan">
             <h3>${plan.name}</h3>
             <p class="per-month">${formatPrice(month)}<span>/mo</span></p>
-            <p class="per-year">${formatPrice(year)} billed annually</p>
+            <p class="per-year">${formatPrice(year)} billed annually${saving ? ` · Save ${saving}%` : ""}</p>
           </div>`;
       }).join("");
     </script>
