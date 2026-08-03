@@ -13,7 +13,7 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.head.repo.fork == false && startsWith(github.event.pull_request.head.ref, 'reqio/feature-')
     runs-on: ubuntu-latest
     steps:
-      - uses: reqio-app/feedback-to-pr@v1
+      - uses: reqio-app/feedback-to-pr@v2
         with:
           mode: merged
           project-id: cms6917zf00081msb8njz06j7
