@@ -52,7 +52,10 @@ jobs:
           # agent-command is deliberately absent, which selects the default
           # (Claude Code headless). An explicitly empty string is NOT the same
           # thing and fails the run on purpose.
-          auto-approve: "false"
+          # Matches the action's own default. The sandbox exists to exercise the
+          # real path, and the real path no longer waits for a human to move the
+          # card: a new bug is picked up on the next poll.
+          auto-approve: "true"
           max-prs-per-run: "1"
           test-command: ""
           allow-test-edits: "false"
