@@ -130,12 +130,13 @@
       <h2>What happens after you file one</h2>
       <ol>
         <li>The report lands in the Reqio dashboard as a bug.</li>
-        <li>A human moves it to In progress. That move is the approval.</li>
         <li>
-          The scheduled workflow picks it up and opens a pull request on
-          <code>forever-faceless/agent-loop-test</code>.
+          The scheduled workflow picks it up on its own and opens a pull request on
+          <code>forever-faceless/agent-loop-test</code>. Nobody approves it first. The agent moves
+          the request to In progress when it starts, so the reporter is told work has begun.
         </li>
-        <li>Merging that pull request marks the request complete and notifies the reporter.</li>
+        <li>The pull request is the approval. A human reviews it in GitHub.</li>
+        <li>Merging it marks the request complete and notifies the reporter.</li>
       </ol>
 
       <h2>Annual pricing</h2>
