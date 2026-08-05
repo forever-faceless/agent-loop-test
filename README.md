@@ -5,8 +5,10 @@ end to end against a live Reqio project. Nothing here is production code. Safe t
 
 ## What is being tested
 
-1. The scheduled poll finds a new bug without anyone approving it first (`auto-approve` defaults
-   to true), moves it to In progress, and opens a pull request.
+1. The scheduled poll finds a bug someone moved to In progress and opens a pull request. That
+   status move is the approval, which is the shipped default (`auto-approve: false`). To exercise
+   the other path, where the poll claims a brand new bug on its own, flip `auto-approve` to
+   `"true"` for that run and put it back after.
 2. The developer note on the Reqio request gets the pull request URL.
 3. Merging that pull request fires `pull_request: closed`, the merge workflow marks the
    request COMPLETED, and the reporter is notified.

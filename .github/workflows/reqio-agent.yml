@@ -52,10 +52,12 @@ jobs:
           # agent-command is deliberately absent, which selects the default
           # (Claude Code headless). An explicitly empty string is NOT the same
           # thing and fails the run on purpose.
-          # Matches the action's own default. The sandbox exists to exercise the
-          # real path, and the real path no longer waits for a human to move the
-          # card: a new bug is picked up on the next poll.
-          auto-approve: "true"
+          # Matches the action's own default, which is the point of this
+          # sandbox: it exercises what a customer actually gets, not a
+          # configuration only this repository runs. So a bug is picked up only
+          # once someone moves it to In progress. To test the overnight path,
+          # flip this to "true" for that run and put it back after.
+          auto-approve: "false"
           max-prs-per-run: "1"
           test-command: ""
           allow-test-edits: "false"
